@@ -9,9 +9,13 @@ import { styles } from "./styles";
 
 // Placeholder
 const car = {
+  id: '1',
   model: "RS7 4.0",
   make: "Audi",
   year: 2015,
+  image: {
+    url: 'image'
+  }
 };
 
 const image = require("../../../assets/placeholder.png");
@@ -20,7 +24,7 @@ interface StarProps {
   star: boolean;
 }
 
-const URL = 'http://localhost:3000'
+const URL = 'http://10.0.2.2:3000'
 
 
 
@@ -32,12 +36,16 @@ export const StarIcon = (props: StarProps) => (
   />
 );
 
-const Vehicle = ({ car: any  } ) => {
+const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, year:number, make:string, image:string } ) => {
   const size = useScreenDimensions();
+
+  console.log(image)
 
   return (<View style={styles.card}>
     <Image
-      source={image}
+      source={{
+        uri: URL+image
+      }}
       style={{
         width: "100%",
         height: size.width * 0.5,
@@ -45,12 +53,12 @@ const Vehicle = ({ car: any  } ) => {
     />
     <View style={styles.details}>
       <View style={styles.header}>
-        <Text style={styles.model}>{car.model}</Text>
+        <Text style={styles.model}>{model}</Text>
         <StarIcon star={true} />
       </View>
       <View style={styles.line} />
       <Text style={styles.makeYear}>
-        {car.make} | {car.year}
+        {make} | {year}
       </Text>
     </View>
   </View>)
@@ -62,7 +70,7 @@ const Vehicle = ({ car: any  } ) => {
  
 const Garage = () => {
  
-  const [fetchedData, setFetchedData] = useState([]);
+  const [fetchedData, setFetchedData] = useState<any[]>([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -78,14 +86,20 @@ const Garage = () => {
  
 
   let carData = fetchedData
-  console.log(carData)
+  //console.log(carData)
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.list}>
 
         {carData ? (carData.map( car => {
         return (
-          <Vehicle car={car}></Vehicle>
+          <Vehicle id={car.id} 
+          model={car.model}
+          make={car.make}
+          year={car.year}
+          image={car.image.url}
+          
+          ></Vehicle>
         )
       })) : ('Loading....')}
       

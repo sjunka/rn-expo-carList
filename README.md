@@ -12,9 +12,9 @@ This repo is a working project that lists cars based on a local API response. It
 
 ## Frontend Challenge
 
-- [ ] Implement a list for showing all cars using the currently implemented car item in the Garage screen as a base following as reference the screenshot above.
+- [x ] Implement a list for showing all cars using the currently implemented car item in the Garage screen as a base following as reference the screenshot above.
 
-- [ ] Feed the list with data from the node API available in `backend` folder, keep it as simple as possible.
+- [ x] Feed the list with data from the node API available in `backend` folder, keep it as simple as possible.
 
 - [ ] Refactor the code using whatever best practices you see fit.
 
