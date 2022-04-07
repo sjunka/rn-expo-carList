@@ -10,13 +10,17 @@ import { styles } from "./styles";
 
 const URL = 'http://10.0.2.2:3000'
 
-const DetailsVehicle = ({ id, model, make, year, image}: { id: number; model: string, year:number, make:string, image:string } ) => {
+const DetailsVehicle = ( props:any ) => {
+
+  const VehicleData = props.route.params.car
+
+  console.log(props.route.params.car)
   const size = useScreenDimensions();
 
   return (<View style={styles.card}>
     <Image
       source={{
-        uri: URL+image
+        uri: URL+VehicleData.image.url
       }}
       style={{
         width: "100%",
@@ -25,12 +29,12 @@ const DetailsVehicle = ({ id, model, make, year, image}: { id: number; model: st
     />
     <View style={styles.details}>
       <View style={styles.header}>
-        <Text style={styles.model}>{model}</Text>
+        <Text style={styles.model}>{VehicleData.model}</Text>
         <StarIcon star={true} />
       </View>
       <View style={styles.line} />
       <Text style={styles.makeYear}>
-        {make} | {year}
+        {VehicleData.make} | {VehicleData.year}
       </Text>
     </View>
   </View>)

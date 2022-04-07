@@ -105,7 +105,7 @@ const Garage = ({ navigation }: any) => {
           
           <Button
         title="Go to Details"
-        onPress={() => navigation.navigate("Details", {carData})}
+        onPress={() => navigation.navigate("Details", {car})}
       />
           </>
           
