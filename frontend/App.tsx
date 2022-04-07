@@ -19,11 +19,10 @@ export default function App() {
  
     <NavigationContainer>
     
-<StatusBar style="auto" />
+      <StatusBar style="auto" />
     <Stack.Navigator initialRouteName="Garage">
-        <Stack.Screen name="Garage" component={Garage} />
-
-        <Stack.Screen name="Car Details" component={DetailsVehicle} />
+        <Stack.Screen  name="Garage" component={Garage} />
+        <Stack.Screen  name="Details" component={DetailsVehicle} />
       </Stack.Navigator>
 
 

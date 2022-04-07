@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { View, Text, Image, SafeAreaView, ScrollView  } from "react-native";
+import { View, Text, Image, SafeAreaView, ScrollView, Button  } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useScreenDimensions } from "../../hooks/useScreenDimensions";
 import { Colors } from "../../styles";
@@ -68,7 +68,7 @@ const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, y
   
 
  
-const Garage = () => {
+const Garage = ({ navigation }: any) => {
  
   const [fetchedData, setFetchedData] = useState<any[]>([]);
 
@@ -82,17 +82,16 @@ const Garage = () => {
     getData();
   }, []);
 
- 
- 
-
   let carData = fetchedData
-  //console.log(carData)
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.list}>
 
+      
+
         {carData ? (carData.map( car => {
         return (
+          <>
           <Vehicle key={car.id} 
           id={car.id} 
           model={car.model}
@@ -101,12 +100,18 @@ const Garage = () => {
           image={car.image.url}
           
           ></Vehicle>
+          
+          
+          
+          <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate("Details", {carData})}
+      />
+          </>
+          
         )
       })) : ('Loading....')}
       
-   
-     
-
       </ScrollView>
     </SafeAreaView>
   );
