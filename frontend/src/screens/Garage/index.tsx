@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { View, Text, Image, SafeAreaView, ScrollView, Button  } from "react-native";
+import { View, Text, Image, SafeAreaView, ScrollView, Button, TouchableOpacity  } from "react-native";
+
+import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment, selectCount, toggle } from './.././../store/favorites'
+
+
 import { AntDesign } from "@expo/vector-icons";
 import { useScreenDimensions } from "../../hooks/useScreenDimensions";
 import { Colors } from "../../styles";
@@ -38,8 +43,9 @@ export const StarIcon = (props: StarProps) => (
 
 const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, year:number, make:string, image:string } ) => {
   const size = useScreenDimensions();
-
-  //console.log(image)
+  const starValue = useSelector(selectCount);
+  // const starValue = useSelector((state) => state.favorite.value)
+  const dispatch = useDispatch()
 
   return (<View style={styles.card}>
     <Image
@@ -54,7 +60,13 @@ const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, y
     <View style={styles.details}>
       <View style={styles.header}>
         <Text style={styles.model}>{model}</Text>
-        <StarIcon star={true} />
+        <TouchableOpacity
+        onPress={() => dispatch(toggle())}
+      >
+        <StarIcon star={starValue} />
+        <Text>Press Here</Text>
+      </TouchableOpacity>
+      
       </View>
       <View style={styles.line} />
       <Text style={styles.makeYear}>

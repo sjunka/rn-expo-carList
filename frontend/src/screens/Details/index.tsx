@@ -14,7 +14,7 @@ const DetailsVehicle = ( props:any ) => {
 
   const VehicleData = props.route.params.car
 
-  console.log(props.route.params.car)
+  // console.log(props.route.params.car)
   const size = useScreenDimensions();
 
   return (<View style={styles.card}>

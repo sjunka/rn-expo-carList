@@ -9,6 +9,9 @@ import { Colors } from "./src/styles";
 import Garage from "./src/screens/Garage";
 import DetailsVehicle from "./src/screens/Details";
 
+import { store } from './src/app/store'
+import { Provider } from 'react-redux'
+
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +19,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
 
- 
+    <Provider store={store}>
     <NavigationContainer>
     
       <StatusBar style="auto" />
@@ -27,6 +30,7 @@ export default function App() {
 
 
   </NavigationContainer>
+  </Provider>
   );
 }
 

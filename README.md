@@ -18,7 +18,7 @@ This repo is a working project that lists cars based on a local API response. It
 
 - [ ] Refactor the code using whatever best practices you see fit.
 
-- [ ] Implement a `Detail` screen, following the same design principles and using the same information already provided.
+- [ x] Implement a `Detail` screen, following the same design principles and using the same information already provided.
 
 - [ ] Implement a "favorite" feature using Redux as your global state manager, so users are able to toggle stars on and off between both Garage and Detail screens.
 
