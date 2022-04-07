@@ -39,7 +39,7 @@ export const StarIcon = (props: StarProps) => (
 const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, year:number, make:string, image:string } ) => {
   const size = useScreenDimensions();
 
-  console.log(image)
+  //console.log(image)
 
   return (<View style={styles.card}>
     <Image
@@ -93,7 +93,8 @@ const Garage = () => {
 
         {carData ? (carData.map( car => {
         return (
-          <Vehicle id={car.id} 
+          <Vehicle key={car.id} 
+          id={car.id} 
           model={car.model}
           make={car.make}
           year={car.year}
