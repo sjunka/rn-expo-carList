@@ -32,8 +32,36 @@ export const StarIcon = (props: StarProps) => (
   />
 );
 
-const Garage = () => {
+const Vehicle = ({ car: any  } ) => {
   const size = useScreenDimensions();
+
+  return (<View style={styles.card}>
+    <Image
+      source={image}
+      style={{
+        width: "100%",
+        height: size.width * 0.5,
+      }}
+    />
+    <View style={styles.details}>
+      <View style={styles.header}>
+        <Text style={styles.model}>{car.model}</Text>
+        <StarIcon star={true} />
+      </View>
+      <View style={styles.line} />
+      <Text style={styles.makeYear}>
+        {car.make} | {car.year}
+      </Text>
+    </View>
+  </View>)
+}
+
+
+  
+
+ 
+const Garage = () => {
+ 
   const [fetchedData, setFetchedData] = useState([]);
 
   useEffect(() => {
@@ -52,25 +80,7 @@ const Garage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.list}>
-        <View style={styles.card}>
-          <Image
-            source={image}
-            style={{
-              width: "100%",
-              height: size.width * 0.5,
-            }}
-          />
-          <View style={styles.details}>
-            <View style={styles.header}>
-              <Text style={styles.model}>{car.model}</Text>
-              <StarIcon star={true} />
-            </View>
-            <View style={styles.line} />
-            <Text style={styles.makeYear}>
-              {car.make} | {car.year}
-            </Text>
-          </View>
-        </View>
+      <Vehicle car={fetchedData}/>
       </View>
     </View>
   );
