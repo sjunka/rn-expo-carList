@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, SafeAreaView, ScrollView  } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useScreenDimensions } from "../../hooks/useScreenDimensions";
 import { Colors } from "../../styles";
@@ -69,20 +69,31 @@ const Garage = () => {
       const response = await axios.get(
         "http://10.0.2.2:3000/"
       );
-      setFetchedData(response.data);
+      setFetchedData(response.data.items);
     };
     getData();
   }, []);
 
-  console.log("data: ", fetchedData);
+ 
  
 
+  let carData = fetchedData
+  console.log(carData)
   return (
-    <View style={styles.container}>
-      <View style={styles.list}>
-      <Vehicle car={fetchedData}/>
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.list}>
+
+        {carData ? (carData.map( car => {
+        return (
+          <Vehicle car={car}></Vehicle>
+        )
+      })) : ('Loading....')}
+      
+   
+     
+
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
