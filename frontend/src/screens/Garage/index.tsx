@@ -3,7 +3,7 @@ import axios from 'axios';
 import { View, Text, Image, SafeAreaView, ScrollView, Button, TouchableOpacity  } from "react-native";
 
 import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment, selectCount, toggle } from './.././../store/favorites'
+import { decrement, fetchAllUsers, increment, toggle } from './.././../store/favorites'
 
 
 import { AntDesign } from "@expo/vector-icons";
@@ -11,6 +11,8 @@ import { useScreenDimensions } from "../../hooks/useScreenDimensions";
 import { Colors } from "../../styles";
 
 import { styles } from "./styles";
+import { connect } from 'http2';
+import { RootState } from '../../app/store';
 
 // Placeholder
 const car = {
@@ -27,25 +29,30 @@ const image = require("../../../assets/placeholder.png");
 
 interface StarProps {
   star: boolean;
+  id: string;
 }
 
 const URL = 'http://10.0.2.2:3000'
 
 
 
-export const StarIcon = (props: StarProps) => (
-  <AntDesign
-    size={24}
-    name={props.star ? "star" : "staro"}
-    color={props.star ? Colors.starColor : Colors.textColor}
-  />
-);
-
-const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, year:number, make:string, image:string } ) => {
-  const size = useScreenDimensions();
-  const starValue = useSelector(selectCount);
-  // const starValue = useSelector((state) => state.favorite.value)
+export const StarIcon = (props: StarProps) => {
   const dispatch = useDispatch()
+  return (
+    <TouchableOpacity
+      onPress={() => dispatch(toggle(props.id))}
+  >
+    <AntDesign
+      size={24}
+      name={props.star ? "star" : "staro"}
+      color={props.star ? Colors.starColor : Colors.textColor}  
+    />
+    </TouchableOpacity>
+  )
+}
+
+const Vehicle = ({ id, model, make, year, image, star}: { id: string; model: string, year:number, make:string, image:string, star:any } ) => {
+  const size = useScreenDimensions();
 
   return (<View style={styles.card}>
     <Image
@@ -60,12 +67,8 @@ const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, y
     <View style={styles.details}>
       <View style={styles.header}>
         <Text style={styles.model}>{model}</Text>
-        <TouchableOpacity
-        onPress={() => dispatch(toggle())}
-      >
-        <StarIcon star={starValue} />
-        <Text>Press Here</Text>
-      </TouchableOpacity>
+       
+        <StarIcon id={id} star={star} />
       
       </View>
       <View style={styles.line} />
@@ -75,33 +78,24 @@ const Vehicle = ({ id, model, make, year, image}: { id: number; model: string, y
     </View>
   </View>)
 }
-
-
-  
-
  
 const Garage = ({ navigation }: any) => {
- 
-  const [fetchedData, setFetchedData] = useState<any[]>([]);
-
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get(
-        "http://10.0.2.2:3000/"
-      );
-      setFetchedData(response.data.items);
-    };
-    getData();
-  }, []);
+    dispatch(fetchAllUsers());
+  }, [dispatch])
+  
+  const carList  = useSelector((state: RootState) => state.favorite.list);
+  let carData = carList
 
-  let carData = fetchedData
+  // console.log(carData)
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.list}>
-
-      
-
-        {carData ? (carData.map( car => {
+        {carData ? (carData.map( car  => {
+          // console.log(car)
         return (
           <>
           <Vehicle key={car.id} 
@@ -110,15 +104,13 @@ const Garage = ({ navigation }: any) => {
           make={car.make}
           year={car.year}
           image={car.image.url}
-          
+          star={car.favorite}
           ></Vehicle>
           
-          
-          
           <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details", {car})}
-      />
+              title="Go to Details"
+              onPress={() => navigation.navigate("Details", {car})}
+            />
           </>
           
         )
